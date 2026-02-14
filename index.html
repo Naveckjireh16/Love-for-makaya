@@ -67,9 +67,9 @@ animation:fall linear infinite;
 
 <body>
 
-<div class="container" id="capture">
+<div class="container">
 
-<h1>❤️ Makaya Makosso Mary Laure exaucée❤️</h1>
+<h1>❤️ Makaya Makosso Marie-Laure Exaucée ❤️</h1>
 
 <h3 id="timer"></h3>
 
@@ -80,15 +80,11 @@ animation:fall linear infinite;
 
 <button onclick="generateLove()">Generate Love Message</button>
 
-
 <div id="poem"></div>
 
 </div>
 
 <script>
-const name="Makaya Makosso Mary Laure";
-
-/* LOVE TIMER — set your date here */
 const loveDate=new Date("2025-11-26");
 
 function updateTimer(){
@@ -100,52 +96,40 @@ function updateTimer(){
 }
 setInterval(updateTimer,1000);
 
-/* PHOTO UPLOAD WITH PERSISTENCE */
-const photoContainer = document.getElementById("photos");
-const photoUpload = document.getElementById("photoUpload");
+/* PHOTO UPLOAD */
+const photoContainer=document.getElementById("photos");
+const photoUpload=document.getElementById("photoUpload");
 
-// Load saved photos on page load
-window.onload = function() {
+window.onload=function(){
   updateTimer();
-  const savedPhotos = JSON.parse(localStorage.getItem("lovePhotos") || "[]");
-  savedPhotos.forEach(src => {
-    const img = document.createElement("img");
-    img.src = src;
+  const savedPhotos=JSON.parse(localStorage.getItem("lovePhotos")||"[]");
+  savedPhotos.forEach(src=>{
+    const img=document.createElement("img");
+    img.src=src;
     photoContainer.appendChild(img);
   });
 }
 
-// Upload new photos
-photoUpload.addEventListener("change", function(e){
-  const files = Array.from(e.target.files);
-  const savedPhotos = JSON.parse(localStorage.getItem("lovePhotos") || "[]");
+photoUpload.addEventListener("change",function(e){
+  const files=Array.from(e.target.files);
+  const savedPhotos=JSON.parse(localStorage.getItem("lovePhotos")||"[]");
 
-  files.forEach(file => {
-    const reader = new FileReader();
-    reader.onload = function(event){
-      const img = document.createElement("img");
-      img.src = event.target.result;
+  files.forEach(file=>{
+    const reader=new FileReader();
+    reader.onload=function(event){
+      const img=document.createElement("img");
+      img.src=event.target.result;
       photoContainer.appendChild(img);
 
-      // Save to localStorage
       savedPhotos.push(event.target.result);
-      localStorage.setItem("lovePhotos", JSON.stringify(savedPhotos));
+      localStorage.setItem("lovePhotos",JSON.stringify(savedPhotos));
     }
     reader.readAsDataURL(file);
   });
 });
 
-/* POEMS */
-const poems=[
-...
-];
-
-function generateLove(){
-  const poem=poems[Math.floor(Math.random()*poems.length)];
-  document.getElementById("poem").innerText=poem;
-}
-/* ROMANTIC PARAGRAPH MESSAGE */
-const loveMessage = [
+/* LOVE MESSAGE */
+const loveMessage=[
 
 "If one day my heart stopped beating, it would only be because it got tired of whispering your name every second.",
 
@@ -165,29 +149,21 @@ const loveMessage = [
 ];
 
 function generateLove(){
-  const poemDiv = document.getElementById("poem");
-  poemDiv.innerHTML = "";
+  const poemDiv=document.getElementById("poem");
+  poemDiv.innerHTML="";
+  let i=0;
 
-  let index = 0;
-
-  function showNext(){
-    if(index < loveMessage.length){
-      const p = document.createElement("p");
-      p.innerText = loveMessage[index];
-      p.style.marginBottom = "15px";
+  function show(){
+    if(i<loveMessage.length){
+      const p=document.createElement("p");
+      p.innerText=loveMessage[i];
+      p.style.marginBottom="15px";
       poemDiv.appendChild(p);
-      index++;
-      setTimeout(showNext, 2500);
+      i++;
+      setTimeout(show,2500);
     }
   }
-
-  showNext();
-}
-
-/* WHATSAPP */
-function shareWhatsApp(){
-  const text=document.getElementById("poem").innerText;
-  window.open("https://wa.me/?text="+encodeURIComponent(text));
+  show();
 }
 
 /* HEARTS */
@@ -206,6 +182,7 @@ setInterval(heart,300);
 
 </body>
 </html>
+
 
 
 
