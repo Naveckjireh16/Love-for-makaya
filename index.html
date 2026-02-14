@@ -168,20 +168,20 @@ function generateLove(){
   const poemDiv = document.getElementById("poem");
   poemDiv.innerHTML = "";
 
-  let i = 0;
+  let index = 0;
 
-  function showParagraph(){
-    if(i < loveMessage.length){
+  function showNext(){
+    if(index < loveMessage.length){
       const p = document.createElement("p");
+      p.innerText = loveMessage[index];
       p.style.marginBottom = "15px";
-      p.innerText = loveMessage[i];
       poemDiv.appendChild(p);
-      i++;
-      setTimeout(showParagraph, 2500); // speed between paragraphs
+      index++;
+      setTimeout(showNext, 2500);
     }
   }
 
-  showParagraph();
+  showNext();
 }
 
 /* WHATSAPP */
@@ -206,6 +206,7 @@ setInterval(heart,300);
 
 </body>
 </html>
+
 
 
 
