@@ -69,7 +69,7 @@ animation:fall linear infinite;
 
 <div class="container" id="capture">
 
-<h1>❤️ Makaya Makosso Mary Laure exaucée ❤️</h1>
+<h1>❤️ Makaya Makosso Mary Laure ❤️</h1>
 
 <h3 id="timer"></h3>
 
@@ -79,7 +79,7 @@ animation:fall linear infinite;
 <div id="photos"></div>
 
 <button onclick="generateLove()">Generate Love Message</button>
-
+<button onclick="shareWhatsApp()">Share WhatsApp</button>
 
 <div id="poem"></div>
 
@@ -89,30 +89,50 @@ animation:fall linear infinite;
 const name="Makaya Makosso Mary Laure";
 
 /* LOVE TIMER — set your date here */
-const loveDate=new Date("2025-11-26");
+const loveDate=new Date("2024-02-14");
 
 function updateTimer(){
-const now=new Date();
-const diff=now-loveDate;
-const days=Math.floor(diff/(1000*60*60*24));
-document.getElementById("timer").innerText=
-"❤️ Together for "+days+" days ❤️";
+  const now=new Date();
+  const diff=now-loveDate;
+  const days=Math.floor(diff/(1000*60*60*24));
+  document.getElementById("timer").innerText=
+  "❤️ Together for "+days+" days ❤️";
 }
 setInterval(updateTimer,1000);
 
-/* PHOTO UPLOAD */
-document.getElementById("photoUpload").addEventListener("change",function(e){
-const container=document.getElementById("photos");
-container.innerHTML="";
-Array.from(e.target.files).forEach(file=>{
-const reader=new FileReader();
-reader.onload=function(event){
-const img=document.createElement("img");
-img.src=event.target.result;
-container.appendChild(img);
+/* PHOTO UPLOAD WITH PERSISTENCE */
+const photoContainer = document.getElementById("photos");
+const photoUpload = document.getElementById("photoUpload");
+
+// Load saved photos on page load
+window.onload = function() {
+  updateTimer();
+  const savedPhotos = JSON.parse(localStorage.getItem("lovePhotos") || "[]");
+  savedPhotos.forEach(src => {
+    const img = document.createElement("img");
+    img.src = src;
+    photoContainer.appendChild(img);
+  });
 }
-reader.readAsDataURL(file);
-});
+
+// Upload new photos
+photoUpload.addEventListener("change", function(e){
+  const files = Array.from(e.target.files);
+  const savedPhotos = JSON.parse(localStorage.getItem("lovePhotos") || "[]");
+
+  files.forEach(file => {
+    const reader = new FileReader();
+    reader.onload = function(event){
+      const img = document.createElement("img");
+      img.src = event.target.result;
+      photoContainer.appendChild(img);
+
+      // Save to localStorage
+      savedPhotos.push(event.target.result);
+      localStorage.setItem("lovePhotos", JSON.stringify(savedPhotos));
+    }
+    reader.readAsDataURL(file);
+  });
 });
 
 /* POEMS */
@@ -129,31 +149,29 @@ My heart belongs to you alone.`,
 You are my dream, my heart’s delight.`];
 
 function generateLove(){
-const poem=poems[Math.floor(Math.random()*poems.length)];
-document.getElementById("poem").innerText=poem;
+  const poem=poems[Math.floor(Math.random()*poems.length)];
+  document.getElementById("poem").innerText=poem;
 }
 
 /* WHATSAPP */
 function shareWhatsApp(){
-const text=document.getElementById("poem").innerText;
-window.open("https://wa.me/?text="+encodeURIComponent(text));
+  const text=document.getElementById("poem").innerText;
+  window.open("https://wa.me/?text="+encodeURIComponent(text));
 }
 
 /* HEARTS */
 function heart(){
-const h=document.createElement("div");
-h.className="heart";
-h.innerHTML="❤️";
-h.style.left=Math.random()*100+"vw";
-h.style.fontSize=Math.random()*20+20+"px";
-h.style.animationDuration=Math.random()*3+3+"s";
-document.body.appendChild(h);
-setTimeout(()=>h.remove(),6000);
+  const h=document.createElement("div");
+  h.className="heart";
+  h.innerHTML="❤️";
+  h.style.left=Math.random()*100+"vw";
+  h.style.fontSize=Math.random()*20+20+"px";
+  h.style.animationDuration=Math.random()*3+3+"s";
+  document.body.appendChild(h);
+  setTimeout(()=>h.remove(),6000);
 }
 setInterval(heart,300);
 </script>
 
 </body>
-
 </html>
-
